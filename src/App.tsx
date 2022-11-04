@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react"
+import { useAppSelector, useAppDispatch } from "./hooks"
+import { getPosts } from "./reducers/postSlice"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface Post {
+  id: number
+  title: string
+  body: string
 }
 
-export default App;
+function App() {
+  const dispatch = useAppDispatch()
+  const posts = useAppSelector((state) => state.posts.value)
+
+  useEffect(() => {
+    dispatch(getPosts())
+  }, [dispatch])
+
+  return (
+    <div>
+      {posts.length
+        ? posts.map((post: Post) => (
+            <div key={post?.id}>
+              <h1>{post?.title}</h1>
+              <p>{post?.body}</p>
+            </div>
+          ))
+        : "loading.."}
+    </div>
+  )
+}
+
+export default App
