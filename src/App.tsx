@@ -1,4 +1,5 @@
 import { useEffect } from "react"
+import CreatePost from "./components/CreatePost"
 import Posts from "./components/Posts"
 import { useAppDispatch } from "./hooks"
 import { getPosts } from "./reducers/postSlice"
@@ -10,7 +11,12 @@ function App() {
     dispatch(getPosts())
   }, [dispatch])
 
-  return <Posts />
+  return (
+    <>
+      <CreatePost />
+      <Posts />
+    </>
+  )
 }
 
 export default App
