@@ -2,6 +2,9 @@ import Grid from "@mui/material/Grid"
 import Container from "@mui/material/Container"
 import { useAppSelector } from "../../hooks"
 import { styled } from "@mui/material/styles"
+import { useAppDispatch } from "../../hooks"
+import { deletePostThunk } from "../../reducers/postSlice"
+import UpdatePost from "../UpdatePost"
 
 interface Post {
   id: number
@@ -19,6 +22,7 @@ const Item = styled(Container)(({ theme }) => ({
 
 const Posts = () => {
   const posts = useAppSelector((state) => state.posts.value)
+  const dispatch = useAppDispatch()
 
   return (
     <Grid
@@ -32,6 +36,14 @@ const Posts = () => {
           <Item maxWidth="sm">
             <h3>{post?.title}</h3>
             <p>{post?.body}</p>
+            <button
+              onClick={() => {
+                dispatch(deletePostThunk(post.id))
+              }}
+            >
+              Delete Post
+            </button>
+            <UpdatePost id={post.id} />
           </Item>
         </Grid>
       ))}
